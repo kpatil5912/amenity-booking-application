@@ -1,0 +1,67 @@
+graph TB
+    subgraph Client
+        A[REST Client / Frontend]
+    end
+
+    subgraph SpringBoot[Spring Boot Application]
+        subgraph SecurityLayer[Security Layer]
+            F1[JwtAuthenticationFilter]
+            F2[SecurityConfig]
+            F3[RestAuthenticationEntryPoint]
+        end
+
+        subgraph Controllers
+            C1[AuthController]
+            C2[ResourceController]
+            C3[BookingController]
+        end
+
+        subgraph Services
+            S1[AuthService]
+            S2[JwtService]
+            S3[CurrentUserService]
+            S4[ResourceService]
+            S5[BookingService]
+            S6[BookingEmailSender]
+        end
+
+        subgraph Repositories
+            R1[UserRepository]
+            R2[RoleRepository]
+            R3[ResourceRepository]
+            R4[AvailabilitySlotRepository]
+            R5[BookingRepository]
+            R6[WaitlistEntryRepository]
+        end
+    end
+
+    subgraph Infrastructure
+        DB[(PostgreSQL)]
+        MAIL[Mailpit / SMTP]
+    end
+
+    A -->|HTTP + JWT| F1
+    F1 --> F2
+    F2 --> C1 & C2 & C3
+
+    C1 --> S1
+    S1 --> S2
+    S1 --> R1
+    S1 --> R2
+    C2 --> S4
+    S4 --> R3
+    S4 --> R4
+    C3 --> S5
+    S5 --> S3
+    S5 --> R5
+    S5 --> R4
+    S5 --> R6
+    S5 -->|Async| S6
+
+    R1 --> DB
+    R2 --> DB
+    R3 --> DB
+    R4 --> DB
+    R5 --> DB
+    R6 --> DB
+    S6 --> MAIL

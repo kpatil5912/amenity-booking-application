@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Booking Confirmed</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #222;">
+    <h2>Your booking is confirmed</h2>
+    <p>Hi <span th:text="${fullName}">Resident</span>,</p>
+    <p>Your booking for <strong th:text="${resourceName}">Resource</strong> is confirmed.</p>
+    <table cellpadding="6" style="border-collapse: collapse;">
+        <tr><td><strong>Reference</strong></td><td th:text="${bookingReference}">AMN-XXXX</td></tr>
+        <tr><td><strong>Starts</strong></td><td th:text="${startTime}">start</td></tr>
+        <tr><td><strong>Ends</strong></td><td th:text="${endTime}">end</td></tr>
+    </table>
+    <p>See you there!</p>
+    <p style="color:#888; font-size: 12px;">AmenityHub</p>
+</body>
+</html>

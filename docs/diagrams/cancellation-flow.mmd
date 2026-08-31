@@ -1,0 +1,27 @@
+flowchart TD
+    A([User cancels booking]) --> B{Booking exists and owned?}
+    B -->|No| B1[404 Not Found]
+    B -->|Yes| C{Already terminal?}
+    C -->|Yes| C1[422 Already cancelled/completed]
+    C -->|No| D{Within cancellation window?}
+    D -->|No| D1[422 Window has passed]
+    D -->|Yes| E[Lock slot FOR UPDATE]
+
+    E --> F[Transition booking to CANCELLED]
+    F --> G[Decrement booked_count]
+    G --> H[Send cancellation email async]
+    H --> I{Waitlist has entries?}
+
+    I -->|No| J([200 Cancelled])
+    I -->|Yes| K[Promote next WAITING entry]
+    K --> L[Set entry status to PROMOTED]
+    L --> M[Create new Booking - CONFIRMED for promoted user]
+    M --> N[Increment booked_count]
+    N --> O[Send promotion email async]
+    O --> P([200 Cancelled + user promoted])
+
+    style F fill:#ef4444,color:#fff
+    style M fill:#22c55e,color:#fff
+    style B1 fill:#ef4444,color:#fff
+    style C1 fill:#ef4444,color:#fff
+    style D1 fill:#ef4444,color:#fff

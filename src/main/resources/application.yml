@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: amenityhub-backend
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/amenityhub}
+    username: ${DB_USERNAME:amenityhub}
+    password: ${DB_PASSWORD:amenityhub}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+    open-in-view: false
+
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:false}
+          starttls:
+            enable: ${MAIL_SMTP_STARTTLS:false}
+
+  thymeleaf:
+    check-template-location: false
+
+server:
+  port: ${SERVER_PORT:9099}
+  error:
+    include-message: never
+    include-stacktrace: never
+
+app:
+  jwt:
+    # Base64-encoded 256-bit secret. Override in production via APP_JWT_SECRET.
+    secret: ${APP_JWT_SECRET:c2VjcmV0LWtleS1mb3ItYW1lbml0eWh1Yi1kZXYtb25seS1jaGFuZ2UtbWU=}
+    access-token-ttl-minutes: ${APP_JWT_ACCESS_TTL:15}
+    issuer: amenityhub
+  mail:
+    from: ${APP_MAIL_FROM:no-reply@amenityhub.local}
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{correlationId}] %-5level %logger{36} - %msg%n"

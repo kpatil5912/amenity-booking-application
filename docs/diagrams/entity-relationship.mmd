@@ -1,0 +1,71 @@
+erDiagram
+    USER ||--o{ USER_ROLES : has
+    ROLE ||--o{ USER_ROLES : has
+    USER ||--o{ BOOKING : makes
+    USER ||--o{ WAITLIST_ENTRY : joins
+    RESOURCE ||--o{ AVAILABILITY_SLOT : has
+    AVAILABILITY_SLOT ||--o{ BOOKING : booked_in
+    AVAILABILITY_SLOT ||--o{ WAITLIST_ENTRY : waitlisted_for
+
+    USER {
+        bigint id PK
+        varchar email UK
+        varchar password_hash
+        varchar full_name
+        varchar phone_number
+        boolean enabled
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ROLE {
+        bigint id PK
+        varchar name UK
+    }
+
+    USER_ROLES {
+        bigint user_id FK
+        bigint role_id FK
+    }
+
+    RESOURCE {
+        bigint id PK
+        varchar name
+        varchar description
+        varchar resource_type
+        int capacity
+        int cancellation_window_hours
+        boolean active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    AVAILABILITY_SLOT {
+        bigint id PK
+        bigint resource_id FK
+        timestamp start_time
+        timestamp end_time
+        int total_capacity
+        int booked_count
+        bigint version
+        timestamp created_at
+    }
+
+    BOOKING {
+        bigint id PK
+        varchar booking_reference UK
+        bigint user_id FK
+        bigint slot_id FK
+        varchar status
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    WAITLIST_ENTRY {
+        bigint id PK
+        bigint slot_id FK
+        bigint user_id FK
+        varchar status
+        int position
+        timestamp created_at
+    }

@@ -1,0 +1,29 @@
+flowchart TD
+    A([User requests booking]) --> B{Slot exists?}
+    B -->|No| B1[404 Not Found]
+    B -->|Yes| C{Slot in the past?}
+    C -->|Yes| C1[422 Cannot book past slot]
+    C -->|No| D{Already booked this slot?}
+    D -->|Yes| D1[409 Conflict]
+    D -->|No| E{Free capacity?}
+
+    E -->|Yes| F[Lock slot FOR UPDATE]
+    F --> G[Increment booked_count]
+    G --> H[Create Booking - CONFIRMED]
+    H --> I[Send confirmation email async]
+    I --> J([201 Created])
+
+    E -->|No| K{joinWaitlistIfFull?}
+    K -->|No| K1[422 Slot is fully booked]
+    K -->|Yes| L{Already on waitlist?}
+    L -->|Yes| L1[409 Already waitlisted]
+    L -->|No| M[Create WaitlistEntry - WAITING]
+    M --> N([202 Accepted - waitlisted])
+
+    style H fill:#22c55e,color:#fff
+    style M fill:#f59e0b,color:#fff
+    style B1 fill:#ef4444,color:#fff
+    style C1 fill:#ef4444,color:#fff
+    style D1 fill:#ef4444,color:#fff
+    style K1 fill:#ef4444,color:#fff
+    style L1 fill:#ef4444,color:#fff

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Booking Cancelled</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #222;">
+    <h2>Your booking was cancelled</h2>
+    <p>Hi <span th:text="${fullName}">Resident</span>,</p>
+    <p>Your booking <strong th:text="${bookingReference}">AMN-XXXX</strong>
+       for <strong th:text="${resourceName}">Resource</strong> has been cancelled.</p>
+    <table cellpadding="6" style="border-collapse: collapse;">
+        <tr><td><strong>Was starting</strong></td><td th:text="${startTime}">start</td></tr>
+    </table>
+    <p style="color:#888; font-size: 12px;">AmenityHub</p>
+</body>
+</html>

@@ -1,0 +1,6 @@
+stateDiagram-v2
+    [*] --> CONFIRMED : Slot booked / Waitlist promoted
+    CONFIRMED --> CANCELLED : User cancels (within window)
+    CONFIRMED --> COMPLETED : Slot end time passes
+    CANCELLED --> [*]
+    COMPLETED --> [*]
