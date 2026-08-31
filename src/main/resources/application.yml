@@ -3,7 +3,7 @@ spring:
     name: amenityhub-backend
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5433/amenityhub}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/amenityhub}
     username: ${DB_USERNAME:amenityhub}
     password: ${DB_PASSWORD:amenityhub}
     driver-class-name: org.postgresql.Driver
